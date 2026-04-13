@@ -1,0 +1,2798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuitarSync - Backing Tracks Profesionales</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+		
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5aa0 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+          .header {
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Borde más sutil */
+    border-top: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #00d4ff, #87ceeb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 10px rgba(0, 212, 255, 0.3);
+    filter: drop-shadow(0 80px 100px rgba(0, 0, 0, 0.3));
+}
+
+.btn-youtube-header {
+    background: linear-gradient(45deg, #FF0000, #c4302b);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-youtube-header:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+}
+
+/* Y en el header inline, agregar esto al nav span: */
+nav span {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+}
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #87ceeb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        
+        html {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .view-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .view-btn {
+            padding: 0.8rem 2rem;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(0, 212, 255, 0.1);
+            color: #ffffff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: bold;
+        }
+
+        .view-btn.active {
+            background: linear-gradient(45deg, #00d4ff, #0ea5e9);
+            border-color: #00d4ff;
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .view-btn:hover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .bands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .band-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .band-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: #00d4ff;
+        }
+
+        .band-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .band-count {
+            color: #87ceeb;
+            font-size: 0.9rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            color: #00d4ff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+        }
+
+        .technical-details {
+            background: rgba(30, 58, 95, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .technical-title {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .tech-label {
+            color: #87ceeb;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .tech-value {
+            color: white;
+            font-size: 1rem;
+        }
+
+        .chord-progression {
+            background: rgba(30, 58, 95, 0.4);
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 1rem 0;
+            backdrop-filter: blur(5px);
+        }
+
+        .song-structure {
+            background: rgba(30, 58, 95, 0.4);
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            backdrop-filter: blur(5px);
+        }
+
+        .techniques-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .technique-tag {
+            background: rgba(30, 58, 95, 0.6);
+            color: #00d4ff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .song-technical-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin: 0.8rem 0;
+            padding: 0.8rem;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.8rem;
+            color: #87ceeb;
+        }
+
+        .tech-icon {
+            font-size: 0.9rem;
+        }
+
+        .difficulty-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .difficulty-Facil {
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            color: white;
+        }
+
+        .difficulty-intermedio {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .difficulty-avanzado {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .scroll-container {
+            scrollbar-width: thin;
+            scrollbar-color: #00d4ff rgba(30, 58, 95, 0.2);
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00d4ff, #0ea5e9);
+            border-radius: 8px;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 9999;
+        }
+
+        .scroll-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #87ceeb, #0ea5e9);
+            width: 0%;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #00d4ff, #0ea5e9);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .scroll-to-top.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6);
+        }
+
+        .search-container {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00d4ff;
+        }
+
+        /* FILTROS MEJORADOS RESPONSIVOS */
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-weight: bold;
+            color: #00d4ff;
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            padding: 0.8rem 1.2rem;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(0, 212, 255, 0.1);
+            color: #ffffff;
+            font-size: 0.9rem;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:hover, .filter-select:focus {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+            outline: none;
+        }
+
+        .filter-select option {
+            background: #1e3a5f;
+            color: #ffffff;
+            padding: 0.5rem;
+        }
+
+        .songs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .song-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .song-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: #00d4ff;
+        }
+
+        .song-thumbnail {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #1e3a5f, #00d4ff);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .song-thumbnail img {
+            width: 100%;
+            height: 115%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .song-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #00d4ff;
+        }
+
+        .song-genre {
+            color: #87ceeb;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .song-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-direction: column;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-free {
+            background: linear-gradient(45deg, #00d4ff, #0ea5e9);
+            color: white;
+        }
+
+        .btn-premium {
+            background: linear-gradient(45deg, #1e3a5f, #2563eb);
+            color: white;
+            border: 2px solid #00d4ff;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #1e3a5f, #2c5aa0);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 1000px;
+            width: 95%;
+            max-height: 95vh;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 1001;
+        }
+
+        .close-btn:hover {
+            color: #00d4ff;
+        }
+
+        .modal-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-genre {
+            color: #87ceeb;
+            font-size: 1.1rem;
+        }
+
+        /* NUEVA ESTRUCTURA DEL MODAL MEJORADA */
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Video ocupa toda la pantalla primero */
+        .video-section-full {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .video-container {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            width: 100%;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e3a5f, #00d4ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            text-align: center;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        /* Información técnica centrada */
+        .technical-info-centered {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .technical-details {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        /* Opciones de descarga lado a lado */
+        .download-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .download-option {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+        }
+
+        .download-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .free-badge {
+            background: #00d4ff;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .premium-badge {
+            background: #1e3a5f;
+            color: #00d4ff;
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid #00d4ff;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .features-list li {
+            padding: 0.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .features-list li::before {
+            content: "✓";
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        .premium-features li::before {
+            color: #00d4ff;
+        }
+		
+		.feature-not-included::before {
+    content: "❌" !important;
+    color: #ef4444 !important;
+}
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            padding-top: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Capa de imagen base (tema claro) */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                        url('https://res.cloudinary.com/dkuwnbpsu/image/upload/v1755130267/Banner-0_k2ptkq.png') center/cover no-repeat;
+            z-index: 0;
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out;
+            background-attachment: scroll;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+
+        /* Capa de imagen del tema oscuro */
+        .hero-bg-dark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                        url('https://res.cloudinary.com/dkuwnbpsu/image/upload/v1755657000/Banner-1_dyfu3t.png') center/cover no-repeat;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            background-attachment: scroll;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+
+        /* Cuando está en modo oscuro, mostrar la imagen oscura */
+        body.dark-mode .hero .hero-bg-dark {
+            opacity: 1;
+        }
+
+        /* Cuando está en modo oscuro, ocultar la imagen clásica */
+        body.dark-mode .hero .hero-bg {
+            opacity: 0;
+        }
+
+
+
+
+
+        /* Efecto de transición suave para el overlay */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+            z-index: 1;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Asegurar que el contenido esté por encima de las imágenes */
+        .hero h1,
+        .hero p,
+        .hero button {
+            position: relative;
+            z-index: 3;
+        }
+
+
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00d4ff, #87ceeb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .hero button {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #00d4ff, #0ea5e9);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hero button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* MEDIA QUERIES MEJORADAS */
+        @media (max-width: 1024px) {
+            .modal-content {
+                width: 90%;
+                padding: 1.5rem;
+            }
+            
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            /* Mejorar transición de imagen en móviles */
+            .hero {
+                background-attachment: scroll !important;
+                -webkit-background-size: cover !important;
+                background-size: cover !important;
+            }
+
+            /* Optimizar transiciones en móviles */
+            .hero-bg,
+            .hero-bg-dark {
+                background-attachment: scroll !important;
+                -webkit-background-size: cover !important;
+                background-size: cover !important;
+                transition: opacity 0.6s ease-in-out;
+            }
+
+            /* Asegurar que las imágenes se muestren correctamente en móviles */
+            .hero-bg,
+            .hero-bg-dark {
+                background-position: center center !important;
+                background-repeat: no-repeat !important;
+            }
+            
+            .filter-select {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .header-content nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.8rem;
+            }
+
+            .view-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .view-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            /* Modal en móviles */
+            .modal-content {
+                width: 95%;
+                height: 95vh;
+                padding: 1rem;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 15px;
+            }
+
+            .download-section {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .tech-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .download-option {
+                padding: 1.5rem;
+            }
+
+            ::-webkit-scrollbar {
+                display: none;
+            }
+            
+            html {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+
+            .songs-grid {
+                grid-template-columns: 1fr;
+				gap: 1rem;
+                margin: 1rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+			.song-card {
+    padding: 1rem;
+    margin: 0 0.5rem;
+}
+
+.song-thumbnail {
+    height: 200px;
+    margin-bottom: 0.8rem;
+}
+
+.song-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.song-genre {
+    font-size: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.song-technical-info {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+}
+
+.tech-item {
+    font-size: 0.7rem;
+}
+
+.song-date {
+    font-size: 0.7rem;
+    color: #87ceeb;
+    margin-top: 0.5rem;
+}
+
+.song-actions {
+    margin-top: 0.8rem;
+}
+
+.btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+}
+/* ARREGLO PARA INFO TÉCNICA EN 2x2 EN MÓVIL */
+.song-technical-info {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    margin: 0.6rem 0;
+    padding: 0.6rem;
+    text-align: center;
+}
+
+.tech-item {
+    font-size: 0.75rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.difficulty-badge {
+    margin: 0 auto;
+    display: inline-block;
+}
+
+/* ARREGLO PARA IMAGEN HERO EN MÓVIL - VERSION LIMPIA */
+.hero {
+    background-image: url('https://res.cloudinary.com/dkuwnbpsu/image/upload/v1755130267/Banner-0_k2ptkq.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important; /* Importante para móviles */
+    min-height: 100vh;
+}
+/* Asegurar que el overlay funcione */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+    z-index: 1;
+}
+.hero > * {
+    position: relative;
+    z-index: 2;
+}
+.tech-detail {
+    text-align: center;
+    padding: 0.5rem;
+}
+.tech-label {
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+}
+
+.tech-value {
+    font-size: 0.9rem;
+}
+/* CENTRAR TÉCNICAS REQUERIDAS EN MÓVIL */
+.techniques-list {
+    justify-content: center;
+    text-align: center;
+}
+
+.technique-tag {
+    margin: 0.2rem;
+    display: inline-block;
+}
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            /* Optimizaciones para pantallas muy pequeñas */
+            .hero-bg,
+            .hero-bg-dark {
+                background-size: cover !important;
+                background-position: center center !important;
+                transition: opacity 0.5s ease-in-out;
+            }
+
+            .filters {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+
+            .filter-label {
+                font-size: 0.8rem;
+            }
+
+            .filter-select {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+
+            .modal-content {
+                width: 98%;
+                height: 98vh;
+                padding: 0.8rem;
+                border-radius: 10px;
+            }
+
+            .download-option {
+                padding: 1rem;
+            }
+
+            .download-title {
+                font-size: 1.1rem;
+            }
+			.song-card {
+    padding: 0.8rem;
+    margin: 0;
+}
+
+.song-thumbnail {
+    height: 150px;
+}
+.hero {
+    background-attachment: scroll !important;
+    -webkit-background-size: cover !important;
+}
+.tech-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.8rem;
+}
+
+.tech-detail {
+    padding: 0.3rem;
+}
+.techniques-list {
+    gap: 0.3rem;
+}
+
+.technique-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+}
+        }
+		
+		.btn-youtube-header {
+    background: linear-gradient(45deg, #FF0000, #c4302b);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+.btn-youtube-header:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+}
+
+.btn-youtube-modal {
+    background: linear-gradient(45deg, #FF0000, #c4302b);
+    color: white;
+    padding: 0.8rem 1.8rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+.btn-youtube-modal:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 20px rgba(255, 0, 0, 0.5);
+}
+
+    </style>
+</head>
+<body>
+    <!-- Preload de imágenes para transición suave -->
+    <div style="display: none;">
+        <img src="https://res.cloudinary.com/dkuwnbpsu/image/upload/v1755130267/Banner-0_k2ptkq.png" alt="preload">
+        <img src="https://res.cloudinary.com/dkuwnbpsu/image/upload/v1755657000/Banner-1_dyfu3t.png" alt="preload">
+    </div>
+
+
+
+    <div class="scroll-indicator">
+        <div class="scroll-progress" id="scrollProgress"></div>
+    </div>
+
+    <button class="scroll-to-top" id="scrollToTop" onclick="scrollToTopFunction()">
+        🡹
+    </button>
+
+    <header class="header">
+  <style>
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .btn.btn-youtube-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #ff0000;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .btn.btn-youtube-header:hover {
+      background: #cc0000;
+    }
+	.btn-youtube-header:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+}
+/* Botón de cambio de tema */
+.btn-theme-toggle {
+    background: linear-gradient(45deg, #00d4ff, #0ea5e9);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-theme-toggle .theme-icon {
+    transition: transform 0.8s ease-in-out;
+    display: inline-block;
+}
+
+.btn-theme-toggle .theme-text {
+    transition: opacity 0.4s ease-in-out;
+    display: inline-block;
+}
+.btn-theme-toggle:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+}
+
+/* MODO OSCURO */
+body.dark-mode {
+    background: linear-gradient(135deg, #1D1D1D 0%, #2D2D2D 100%);
+}
+
+.dark-mode .logo {
+    background: linear-gradient(45deg, #FED700, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 10px rgba(254, 215, 0, 0.3);
+}
+
+.dark-mode .section-title {
+    color: #FED700;
+}
+
+.dark-mode .band-name {
+    color: #FED700;
+}
+
+.dark-mode .tech-label,
+.dark-mode .filter-label {
+    color: #FED700;
+}
+
+.dark-mode .song-genre {
+    color: #f59e0b;
+}
+
+.dark-mode .band-count {
+    color: #f59e0b;
+}
+
+.dark-mode .view-btn.active {
+    background: linear-gradient(45deg, #FED700, #f59e0b);
+    border-color: #FED700;
+    color: black;
+    box-shadow: 0 0 20px rgba(254, 215, 0, 0.4);
+}
+
+.dark-mode .view-btn {
+    border-color: rgba(254, 215, 0, 0.3);
+    background: rgba(254, 215, 0, 0.1);
+}
+
+.dark-mode .view-btn:hover {
+    border-color: #FED700;
+    background: rgba(254, 215, 0, 0.2);
+    box-shadow: 0 0 15px rgba(254, 215, 0, 0.3);
+}
+
+.dark-mode .search-box:focus {
+    border-color: #FED700;
+    box-shadow: 0 0 20px rgba(254, 215, 0, 0.4);
+}
+
+.dark-mode .search-icon {
+    color: #FED700;
+}
+
+.dark-mode .search-box {
+    border-color: rgba(254, 215, 0, 0.3);
+    background: rgba(254, 215, 0, 0.05);
+}
+
+.dark-mode .search-box:focus {
+    border-color: #FED700;
+    background: rgba(254, 215, 0, 0.1);
+}
+
+.dark-mode .filter-select:hover,
+.dark-mode .filter-select:focus {
+    border-color: #FED700;
+    background: rgba(254, 215, 0, 0.2);
+    box-shadow: 0 0 15px rgba(254, 215, 0, 0.3);
+}
+
+.dark-mode .filter-select {
+    border-color: rgba(254, 215, 0, 0.3);
+    background: rgba(254, 215, 0, 0.1);
+    color: #f59e0b;
+}
+
+.dark-mode .filter-select option {
+    background: #1D1D1D;
+    color: #f59e0b;
+}
+
+.dark-mode .song-card:hover,
+.dark-mode .band-card:hover {
+    border-color: #FED700;
+}
+
+.dark-mode .song-info h3 {
+    color: #FED700;
+}
+
+.dark-mode .song-date {
+    color: #f59e0b;
+}
+
+.dark-mode .modal-title {
+    color: #FED700;
+}
+
+.dark-mode .technical-title {
+    color: #FED700;
+}
+
+.dark-mode .back-btn {
+    color: #FED700;
+    border-color: rgba(254, 215, 0, 0.3);
+    background: rgba(254, 215, 0, 0.1);
+}
+
+.dark-mode .back-btn:hover {
+    background: rgba(254, 215, 0, 0.2);
+    border-color: #FED700;
+}
+
+.dark-mode .btn-free {
+    background: linear-gradient(45deg, #FED700, #f59e0b);
+    color: black;
+}
+
+.dark-mode .btn-premium {
+    background: linear-gradient(45deg, #1D1D1D, #2D2D2D);
+    color: #FED700;
+    border-color: #FED700;
+}
+
+.dark-mode .btn-theme-toggle {
+    background: linear-gradient(45deg, #FED700, #f59e0b);
+    color: black;
+}
+
+.dark-mode .hero h1 {
+    background: linear-gradient(45deg, #FED700, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dark-mode .hero button {
+    background: linear-gradient(45deg, #FED700, #f59e0b);
+    color: black;
+}
+
+.dark-mode .scroll-to-top {
+    background: linear-gradient(45deg, #FED700, #f59e0b);
+    color: black;
+    box-shadow: 0 4px 15px rgba(254, 215, 0, 0.4);
+}
+
+.dark-mode .scroll-to-top:hover {
+    box-shadow: 0 6px 20px rgba(254, 215, 0, 0.6);
+}
+
+.dark-mode .scroll-progress {
+    background: linear-gradient(90deg, #FED700, #f59e0b, #eab308);
+    box-shadow: 0 0 10px rgba(254, 215, 0, 0.5);
+}
+
+.dark-mode .scroll-container::-webkit-scrollbar-track {
+    background: rgba(254, 215, 0, 0.1);
+}
+
+.dark-mode .scroll-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #FED700, #f59e0b);
+}
+
+.dark-mode .filters {
+    background: rgba(254, 215, 0, 0.02);
+    border-color: rgba(254, 215, 0, 0.1);
+}
+
+.dark-mode .technique-tag {
+    background: rgba(45, 45, 45, 0.7);
+    color: #FED700;
+    border-color: rgba(254, 215, 0, 0.4);
+    backdrop-filter: blur(5px);
+}
+
+.dark-mode .chord-progression {
+    background: rgba(254, 215, 0, 0.1);
+    border-color: rgba(254, 215, 0, 0.2);
+}
+
+.dark-mode .song-technical-info {
+    background: rgba(254, 215, 0, 0.05);
+    border-color: rgba(254, 215, 0, 0.1);
+}
+
+.dark-mode .technical-details {
+    background: rgba(45, 45, 45, 0.4);
+    border-color: rgba(254, 215, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.dark-mode .song-technical-info .tech-item {
+    color: #f59e0b;
+}
+
+.dark-mode .song-technical-info .tech-icon {
+    color: #FED700;
+}
+
+.dark-mode .song-technical-info {
+    background: rgba(254, 215, 0, 0.05);
+    border-color: rgba(254, 215, 0, 0.1);
+}
+
+.dark-mode .difficulty-badge.difficulty-Facil {
+    background: linear-gradient(45deg, #FED700, #f59e0b);
+    color: black;
+}
+
+.dark-mode .difficulty-badge.difficulty-intermedio {
+    background: linear-gradient(45deg, #f59e0b, #eab308);
+    color: black;
+}
+
+.dark-mode .difficulty-badge.difficulty-avanzado {
+    background: linear-gradient(45deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.dark-mode .modal-content {
+    background: linear-gradient(135deg, #1D1D1D, #2D2D2D);
+    border-color: rgba(254, 215, 0, 0.3);
+}
+
+.dark-mode .close-btn:hover {
+    color: #FED700;
+}
+
+.dark-mode .modal-genre {
+    color: #f59e0b;
+}
+
+.dark-mode .free-badge {
+    background: #FED700;
+    color: black;
+}
+
+.dark-mode .premium-badge {
+    background: #1D1D1D;
+    color: #FED700;
+    border-color: #FED700;
+}
+
+.dark-mode .video-fallback {
+    background: linear-gradient(135deg, #1D1D1D, #2D2D2D) !important;
+}
+
+.dark-mode .video-placeholder {
+    background: linear-gradient(135deg, #1D1D1D, #2D2D2D) !important;
+}
+
+.dark-mode .video-fallback #youtubeLink {
+    color: #FED700 !important;
+    border-color: #FED700 !important;
+    background: rgba(254, 215, 0, 0.1) !important;
+}
+
+.dark-mode .tech-value {
+    color: #f59e0b;
+}
+
+.dark-mode .chord-progression {
+    background: rgba(45, 45, 45, 0.5);
+    border-color: rgba(254, 215, 0, 0.3);
+    color: #f59e0b;
+    backdrop-filter: blur(5px);
+}
+
+.dark-mode .song-structure {
+    background: rgba(45, 45, 45, 0.5);
+    border-color: rgba(254, 215, 0, 0.3);
+    color: #f59e0b;
+    backdrop-filter: blur(5px);
+}
+
+.dark-mode .free-badge {
+    background: #FED700;
+    color: black;
+}
+
+.dark-mode .btn-youtube-modal:hover {
+    color: #FED700;
+}
+
+/* Estilos deluxe para elementos del modal */
+.dark-mode .download-option {
+    background: rgba(45, 45, 45, 0.3);
+    border-color: rgba(254, 215, 0, 0.2);
+}
+
+.dark-mode .features-list li::before {
+    color: #FED700;
+}
+
+.dark-mode .premium-features li::before {
+    color: #FED700;
+}
+
+.dark-mode .premium-badge {
+    background: #1D1D1D;
+    color: #FED700;
+    border-color: #FED700;
+}
+
+.dark-mode .footer {
+    background: rgba(0, 0, 0, 0.4);
+    border-top-color: rgba(254, 215, 0, 0.2);
+}
+
+.dark-mode .footer .logo {
+    background: linear-gradient(45deg, #FED700, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dark-mode .footer p {
+    color: #f59e0b;
+}
+  </style>
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">🎸 GuitarSync</div>
+      <nav>
+        <span>Backing Tracks Originales</span>
+        <button id="themeToggle" class="btn btn-theme-toggle" onclick="toggleTheme()">
+          <span class="theme-icon">🌙</span>
+          <span class="theme-text">Oscuro</span>
+        </button>
+        <a href="https://www.youtube.com/@Guitar_sync?sub_confirmation=1" 
+           target="_blank" 
+           class="btn btn-youtube-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
+               viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
+          </svg>
+          Suscribirse
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+
+    <div class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-bg-dark"></div>
+        <h1>Backing Tracks de Calidad</h1>
+        <p>Descubre backing tracks profesionales y originales para guitarra. Versiones gratuitas y premium con tablaturas incluidas.</p>
+        <button onclick="scrollToOptions()">Ver Opciones</button>
+    </div>
+
+    <main class="container">
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Buscar canciones..." id="searchInput">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <div class="view-buttons">
+            <button class="view-btn active" id="songsViewBtn" onclick="showSongsView()">🎵 Más Recientes</button>
+            <button class="view-btn" id="bandsViewBtn" onclick="showBandsView()">🎸 Bandas</button>
+        </div>
+
+        <div class="filters" id="filtersSection">
+            <div class="filter-group">
+                <span class="filter-label">🎸 Género</span>
+                <select class="filter-select" id="genreFilter">
+                    <option value="">Todos los géneros</option>
+                    <option value="rock">Rock</option>
+                    <option value="blues">Blues</option>
+                    <option value="metal">Metal</option>
+                    <option value="jazz">Jazz</option>
+                    <option value="pop">Pop</option>
+                    <option value="folk">Folk</option>
+                    <option value="country">Country</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">🎯 Tipo de Guitarra</span>
+                <select class="filter-select" id="guitarTypeFilter">
+                    <option value="">Todos los tipos</option>
+                    <option value="electrica">Eléctrica</option>
+                    <option value="acustica">Acústica</option>
+                    <option value="clasica">Clásica</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">⚡ Tempo (BPM)</span>
+                <select class="filter-select" id="tempoFilter">
+                    <option value="">Todos los tempos</option>
+                    <option value="lento">Lento (60-90)</option>
+                    <option value="moderado">Moderado (91-120)</option>
+                    <option value="rapido">Rápido (121-150)</option>
+                    <option value="muy-rapido">Muy Rápido (150+)</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">🎼 Afinación</span>
+                <select class="filter-select" id="tuningFilter">
+                    <option value="">Todas las afinaciones</option>
+                    <option value="estandar">Estándar (E-A-D-G-B-E)</option>
+                    <option value="drop-d">Drop D (D-A-D-G-B-E)</option>
+                    <option value="drop-c">Drop C (C-G-C-F-A-D)</option>
+                    <option value="medio-tono">Medio tono abajo</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">📊 Dificultad</span>
+                <select class="filter-select" id="difficultyFilter">
+                    <option value="">Todas las dificultades</option>
+                    <option value="Facil">🟢 Facil</option>
+                    <option value="intermedio">🟡 Intermedio</option>
+                    <option value="avanzado">🔴 Avanzado</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="section-header" id="sectionHeader" style="display: none;">
+            <button class="back-btn" onclick="showBandsView()">← Volver</button>
+            <div class="section-title" id="sectionTitle"></div>
+        </div>
+
+        <div class="songs-grid" id="songsGrid">
+        </div>
+
+        <div class="bands-grid" id="bandsGrid" style="display: none;">
+        </div>
+    </main>
+
+    <!-- MODAL REDISEÑADO -->
+    <div class="modal" id="songModal">
+        <div class="modal-content scroll-container">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Canción</h2>
+                <div class="modal-genre" id="modalGenre">Género</div>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Video ocupa toda la pantalla -->
+                <div class="video-section-full">
+				<div class="youtube-subscribe-section" style="text-align: center; margin: -1rem 0 2rem 0;">
+    <a href="https://www.youtube.com/@Guitar_sync?sub_confirmation=1" target="_blank" class="btn btn-youtube-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 10px;"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path></svg>
+        ¡Apoya al canal y suscríbete!
+    </a>
+</div>
+    <div class="video-container" id="videoContainer">
+        <iframe 
+            id="youtubeIframe"
+            width="100%" 
+            height="100%" 
+            src=""
+            title=""
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+            style="display: block;"
+            onload="handleVideoLoad()"
+            onerror="handleVideoError()">
+        </iframe>
+        <div class="video-fallback" id="videoFallback" style="display: none; background: linear-gradient(135deg, #1e3a5f, #00d4ff); color: white; height: 100%; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+            <div style="font-size: 3rem;">🎥</div>
+            <div style="font-size: 1.2rem; margin-bottom: 0.5rem;">Video no disponible para inserción</div>
+            <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem;">Este video tiene restricciones de embebido</div>
+            <a id="youtubeLink" href="" target="_blank" style="color: #00d4ff; text-decoration: none; padding: 0.8rem 1.5rem; border: 2px solid #00d4ff; border-radius: 25px; background: rgba(0, 212, 255, 0.1); transition: all 0.3s ease; font-weight: bold;">
+                🎬 Ver en YouTube
+            </a>
+        </div>
+    </div>
+</div>
+                </div>
+
+                <!-- Información técnica centrada -->
+                <div class="technical-info-centered">
+                    <div class="technical-details" id="technicalDetailsContainer">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Opciones de descarga lado a lado -->
+                <div class="download-section">
+    <div class="download-option">
+    <div class="download-title">
+        <span>Básico</span>
+        <span class="free-badge">GRATIS</span>
+    </div>
+    <ul class="features-list">
+        <li>Calidad 128 kbps</li>
+        <li class="feature-not-included">Sin pista de voz</li>
+        <li class="feature-not-included">Tablatura no incluida</li>
+    </ul>
+    <button class="btn btn-free" id="modalFreeBtn">Descarga Gratuita</button>
+</div>
+
+    <div class="download-option">
+        <div class="download-title">
+            <span>Avanzado</span>
+            <span class="premium-badge">PREMIUM</span>
+        </div>
+        <ul class="features-list premium-features">
+            <li>Calidad 320 kbps</li>
+            <li>Con pista de voz</li>
+            <li>Tablatura completa en PDF</li>
+        </ul>
+        <button class="btn btn-premium" id="modalPremiumBtn">Comprar Premium - $1.500 ARS</button>
+    </div>
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const songs = [
+            {
+                id: 1,
+                title: "De Musica Ligera",
+                artist: "Soda Stereo",
+                genre: "rock",
+                date: "2025-07-12",
+                guitarType: "electrica",
+                tempo: 124,
+                tuning: "estandar",
+                difficulty: "intermedio",
+                key: "Bm",
+                chordProgression: "Bm | G | D | A",
+                structure: "Solo",
+                techniques: ["Arpegio", "Slide", "Pull off", "Hammer On"],
+                thumbnail: "https://i.ytimg.com/vi/T_FkEw27XJ0/maxresdefault.jpg",
+				youtubeId: "BjwE8GcF0FY"
+            },
+            {
+                id: 2,
+                title: "Ji Ji Ji",
+                artist: "Patricio Rey Y Sus Redonditos De Ricota",
+                genre: "rock",
+                date: "2025-07-8",
+                guitarType: "electrica",
+                tempo: 169,
+                tuning: "estandar",
+                difficulty: "intermedio",
+                key: "F",
+                chordProgression: "Dm | A7 | E7 (B5)",
+                structure: "Solo",
+                techniques: ["Bending","Vibrato","Pull off","Slide"],
+                thumbnail: "https://i.ytimg.com/vi/3FCfMC2vq_c/maxresdefault.jpg",
+				youtubeId: "idlArS5Tl2s"
+            },
+            {
+                id: 3,
+                title: "Kamikaze",
+                artist: "Airbag",
+                genre: "rock",
+                date: "2025-06-28",
+                guitarType: "electrica",
+                tempo: 120,
+                tuning: "estandar",
+                difficulty: "intermedio",
+                key: "F#",
+                chordProgression: "C#5 | A5 | B5 | C#5",
+                structure: "Intro – Verso – Coro – Verso 2 - Coro - Solo – Outro",
+                techniques: ["Slide", "Pull off", "Palm muting", "Bending"],
+                thumbnail: "https://i.ytimg.com/vi/gf8Cn3Qo3sM/maxresdefault.jpg",
+				youtubeId: "QvxM4x-yGGI"
+            },
+            {
+                id: 4,
+                title: "Persiana Americana",
+                artist: "Soda Stereo",
+                genre: "rock",
+                date: "2025-07-19",
+                guitarType: "electrica",
+                tempo: 101,
+                tuning: "estandar",
+                difficulty: "intermedio",
+                key: "G",
+                chordProgression: "G | C | G | Em",
+                structure: "Intro - Verso 1 - Pre-Coro - Coro - Verso 2 - Pre-Coro - Coro - Puente - Pre Estribillo - Coro - Outro",
+                techniques: ["Arpegio", "Rasgueo", "Pull off"],
+                thumbnail: "https://i.ytimg.com/vi/9ViQ9A0ddkk/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDGS4m2JmzgzoP6jhfSBwb_clDYtQ",
+				youtubeId: "YcvoVYT3zdw"
+            },
+			{
+                id: 5,
+                title: "En la ciudad de la furia",
+                artist: "Soda Stereo",
+                genre: "rock",
+                date: "2025-08-23",
+                guitarType: "electrica",
+                tempo: 121,
+                tuning: "estandar",
+                difficulty: "Facil",
+                key: "D",
+                chordProgression: "Em | G | A",
+                structure: "Intro - Verso 1 - ♪ - Verso 2 - Coro - Post.Coro - Verso 3 - ♪ - Verso 4 - Coro - Post.Coro - 🎸 - Outro",
+                techniques: ["Arpegio", "Rasgueo", "Palm muting", "Bending", "Slide", "Vibrato", "Pull off"],
+                thumbnail: "https://i.ytimg.com/vi/9ViQ9A0ddkk/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDGS4m2JmzgzoP6jhfSBwb_clDYtQ",
+				youtubeId: "YcvoVYT3zdw"
+            }
+        ];
+
+        let filteredSongs = [...songs];
+        let currentView = 'songs';
+        let selectedBand = null;
+
+        function getUniqueBands() {
+            const bands = {};
+            songs.forEach(song => {
+                if (!bands[song.artist]) {
+                    bands[song.artist] = {
+                        name: song.artist,
+                        count: 0,
+                        songs: []
+                    };
+                }
+                bands[song.artist].count++;
+                bands[song.artist].songs.push(song);
+            });
+            return Object.values(bands);
+        }
+
+        function formatTempo(tempo) {
+            if (tempo >= 60 && tempo <= 90) return "Lento";
+            if (tempo >= 91 && tempo <= 120) return "Moderado";
+            if (tempo >= 121 && tempo <= 150) return "Rápido";
+            return "Muy Rápido";
+        }
+
+        function formatGuitarType(type) {
+            const types = {
+                'electrica': 'Eléctrica',
+                'acustica': 'Acústica',
+                'clasica': 'Clásica'
+            };
+            return types[type] || type;
+        }
+
+        function formatTuning(tuning) {
+            const tunings = {
+                'estandar': 'Estándar',
+                'drop-d': 'Drop D',
+                'drop-c': 'Drop C',
+                'medio-tono': '½ tono ↓'
+            };
+            return tunings[tuning] || tuning;
+        }
+
+        function formatDifficulty(difficulty) {
+            return difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+        }
+
+                // Función para cambiar tema
+        function toggleTheme() {
+            console.log('toggleTheme ejecutada');
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('.theme-icon');
+            const themeText = themeToggle.querySelector('.theme-text');
+            const hero = document.querySelector('.hero');
+            
+            if (!themeToggle || !themeIcon || !themeText || !hero) {
+                console.error('Elementos del tema no encontrados');
+                return;
+            }
+            
+            // Detectar si es móvil
+            const isMobile = window.innerWidth <= 768;
+            console.log('¿Es móvil?', isMobile);
+            
+            // Agregar efecto visual al botón
+            themeToggle.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                themeToggle.style.transform = 'scale(1)';
+            }, 200);
+            
+            body.classList.toggle('dark-mode');
+            console.log('Clase dark-mode:', body.classList.contains('dark-mode'));
+            
+            // Cambiar icono y texto con animación sincronizada con la imagen
+            if (body.classList.contains('dark-mode')) {
+                // Transición suave del icono
+                themeIcon.style.transition = 'transform 0.8s ease-in-out';
+                themeIcon.style.transform = 'rotate(360deg)';
+                
+                // Fade out del texto actual
+                themeText.style.opacity = '0';
+                
+                // Cambiar contenido después de un pequeño delay para que se vea la rotación
+                setTimeout(() => {
+                    themeIcon.textContent = '📀';
+                    themeText.textContent = 'Deluxe';
+                    themeText.style.opacity = '1';
+                }, 400);
+                
+                localStorage.setItem('theme', 'dark');
+                console.log('Tema cambiado a Deluxe');
+                
+                // Resetear la rotación
+                setTimeout(() => {
+                    themeIcon.style.transform = 'rotate(0deg)';
+                }, 800);
+            } else {
+                // Transición suave del icono
+                themeIcon.style.transition = 'transform 0.8s ease-in-out';
+                themeIcon.style.transform = 'rotate(-360deg)';
+                
+                // Fade out del texto actual
+                themeText.style.opacity = '0';
+                
+                // Cambiar contenido después de un pequeño delay para que se vea la rotación
+                setTimeout(() => {
+                    themeIcon.textContent = '💿';
+                    themeText.textContent = 'Clásico';
+                    themeText.style.opacity = '1';
+                }, 400);
+                
+                localStorage.setItem('theme', 'light');
+                console.log('Tema cambiado a Clásico');
+                
+                // Resetear la rotación
+                setTimeout(() => {
+                    themeIcon.style.transform = 'rotate(0deg)';
+                }, 800);
+            }
+        }
+
+
+
+        // Cargar tema guardado
+        function loadSavedTheme() {
+            console.log('Cargando tema guardado...');
+            const savedTheme = localStorage.getItem('theme');
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            const hero = document.querySelector('.hero');
+            
+            if (!themeToggle || !hero) {
+                console.error('Botón de tema o hero no encontrado');
+                return;
+            }
+            
+            const themeIcon = themeToggle.querySelector('.theme-icon');
+            const themeText = themeToggle.querySelector('.theme-text');
+            
+            if (!themeIcon || !themeText) {
+                console.error('Icono o texto del tema no encontrados');
+                return;
+            }
+            
+            console.log('Tema guardado:', savedTheme);
+            
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeIcon.textContent = '📀';
+                themeText.textContent = 'Deluxe';
+                console.log('Tema oscuro aplicado');
+            } else {
+                // Asegurar que el tema claro esté configurado correctamente
+                body.classList.remove('dark-mode');
+                themeIcon.textContent = '💿';
+                themeText.textContent = 'Clásico';
+                console.log('Tema claro aplicado');
+            }
+        }
+
+        function renderSongs(songsToRender) {
+    const grid = document.getElementById('songsGrid');
+    grid.innerHTML = '';
+
+    songsToRender.forEach(song => {
+        const songCard = document.createElement('div');
+        songCard.className = 'song-card';
+        songCard.onclick = () => openModal(song);
+        
+        songCard.innerHTML = `
+            <div class="song-thumbnail">
+                <img src="${song.thumbnail}" alt="${song.title}" onerror="this.style.display='none'; this.parentElement.innerHTML='🎵';">
+            </div>
+            <div class="song-info">
+                <h3>${song.title}</h3>
+                <div class="song-genre">${song.artist} - ${song.genre.toUpperCase()}</div>
+                <div class="song-technical-info">
+                    <div class="tech-item">
+                        <span class="tech-icon">🎸</span>
+                        <span>${formatGuitarType(song.guitarType)}</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">⚡</span>
+                        <span>${song.tempo} BPM</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="tech-icon">🎼</span>
+                        <span>${formatTuning(song.tuning)}</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="difficulty-badge difficulty-${song.difficulty}">${formatDifficulty(song.difficulty)}</span>
+                    </div>
+                </div>
+                <div class="song-date">Agregado: ${formatDate(song.date)}</div>
+            </div>
+            <div class="song-actions">
+    <button class="btn btn-free">Ver Detalles</button>
+</div>
+        `;
+        
+        grid.appendChild(songCard);
+    });
+}	
+
+        function renderBands() {
+            const grid = document.getElementById('bandsGrid');
+            const bands = getUniqueBands();
+            grid.innerHTML = '';
+
+            bands.forEach(band => {
+                const bandCard = document.createElement('div');
+                bandCard.className = 'band-card';
+                bandCard.onclick = () => showBandSongs(band);
+                
+                bandCard.innerHTML = `
+                    <div class="band-name">${band.name}</div>
+                    <div class="band-count">${band.count} cancion${band.count !== 1 ? 'es' : ''}</div>
+                `;
+                
+                grid.appendChild(bandCard);
+            });
+        }
+
+        function showSongsView() {
+            currentView = 'songs';
+            selectedBand = null;
+            
+            document.getElementById('songsViewBtn').classList.add('active');
+            document.getElementById('bandsViewBtn').classList.remove('active');
+            
+            document.getElementById('songsGrid').style.display = 'grid';
+            document.getElementById('bandsGrid').style.display = 'none';
+            document.getElementById('filtersSection').style.display = 'grid';
+            document.getElementById('sectionHeader').style.display = 'none';
+            
+            const sortedSongs = [...songs].sort((a, b) => new Date(b.date) - new Date(a.date));
+            filteredSongs = sortedSongs;
+            filterSongs();
+        }
+
+        function showBandsView() {
+            currentView = 'bands';
+            selectedBand = null;
+            
+            document.getElementById('songsViewBtn').classList.remove('active');
+            document.getElementById('bandsViewBtn').classList.add('active');
+            
+            document.getElementById('songsGrid').style.display = 'none';
+            document.getElementById('bandsGrid').style.display = 'grid';
+            document.getElementById('filtersSection').style.display = 'none';
+            document.getElementById('sectionHeader').style.display = 'none';
+            
+            renderBands();
+        }
+
+        function showBandSongs(band) {
+            currentView = 'band-songs';
+            selectedBand = band;
+            
+            document.getElementById('sectionTitle').textContent = band.name;
+            document.getElementById('sectionHeader').style.display = 'flex';
+            
+            document.getElementById('songsGrid').style.display = 'grid';
+            document.getElementById('bandsGrid').style.display = 'none';
+            document.getElementById('filtersSection').style.display = 'none';
+            
+            const sortedBandSongs = [...band.songs].sort((a, b) => new Date(b.date) - new Date(a.date));
+            renderSongs(sortedBandSongs);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric' 
+            });
+        }
+
+        function getTempoRange(tempo) {
+            if (tempo >= 60 && tempo <= 90) return "lento";
+            if (tempo >= 91 && tempo <= 120) return "moderado";
+            if (tempo >= 121 && tempo <= 150) return "rapido";
+            return "muy-rapido";
+        }
+
+        function filterSongs() {
+            if (currentView !== 'songs') return;
+            
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const genreFilter = document.getElementById('genreFilter').value;
+            const guitarTypeFilter = document.getElementById('guitarTypeFilter').value;
+            const tempoFilter = document.getElementById('tempoFilter').value;
+            const tuningFilter = document.getElementById('tuningFilter').value;
+            const difficultyFilter = document.getElementById('difficultyFilter').value;
+
+            const sortedSongs = [...songs].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            filteredSongs = sortedSongs.filter(song => {
+                const matchesSearch = song.title.toLowerCase().includes(searchTerm) || 
+                                    song.artist.toLowerCase().includes(searchTerm);
+                const matchesGenre = !genreFilter || song.genre === genreFilter;
+                const matchesGuitarType = !guitarTypeFilter || song.guitarType === guitarTypeFilter;
+                const matchesTempo = !tempoFilter || getTempoRange(song.tempo) === tempoFilter;
+                const matchesTuning = !tuningFilter || song.tuning === tuningFilter;
+                const matchesDifficulty = !difficultyFilter || song.difficulty === difficultyFilter;
+                
+                return matchesSearch && matchesGenre && matchesGuitarType && 
+                       matchesTempo && matchesTuning && matchesDifficulty;
+            });
+
+            renderSongs(filteredSongs);
+        }
+
+        function scrollToOptions() {
+    const searchContainer = document.querySelector('.search-container');
+    // Más offset en móviles
+    const isMobile = window.innerWidth <= 768;
+    const offset = isMobile ? 136 : 106; // 150px en móvil, 100px en desktop
+    const offsetTop = searchContainer.offsetTop - offset;
+    window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+    });
+}
+
+        function openModal(song) {
+            document.getElementById('modalTitle').textContent = song.title;
+            document.getElementById('modalGenre').textContent = `${song.artist} - ${song.genre.toUpperCase()}`;
+            
+            // Configurar el video con el nuevo sistema
+            checkVideoAvailability(song.youtubeId);
+            
+            // Agregar información técnica al contenedor
+            const technicalContainer = document.getElementById('technicalDetailsContainer');
+            technicalContainer.innerHTML = `
+                <div class="technical-title">
+                    <span>🎼</span>
+                    <span>Información Técnica</span>
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-detail">
+                        <div class="tech-label">⚡ Tempo</div>
+                        <div class="tech-value">${song.tempo} BPM</div>
+                    </div>
+                    <div class="tech-detail">
+                        <div class="tech-label">🎵 Tonalidad</div>
+                        <div class="tech-value">${song.key}</div>
+                    </div>
+                    <div class="tech-detail">
+                        <div class="tech-label">🎸 Guitarra</div>
+                        <div class="tech-value">${formatGuitarType(song.guitarType)}</div>
+                    </div>
+                    <div class="tech-detail">
+                        <div class="tech-label">🎼 Afinación</div>
+                        <div class="tech-value">${formatTuning(song.tuning)}</div>
+                    </div>
+                </div>
+                
+                <div class="tech-detail">
+                    <div class="tech-label">🎹 Progresión de Acordes</div>
+                    <div class="chord-progression">${song.chordProgression}</div>
+                </div>
+                
+                <div class="tech-detail">
+                    <div class="tech-label">📋 Estructura de la Canción</div>
+                    <div class="song-structure">${song.structure}</div>
+                </div>
+                
+                <div class="tech-detail">
+                    <div class="tech-label">🎯 Técnicas Requeridas</div>
+                    <div class="techniques-list">
+                        ${song.techniques.map(technique => 
+                            `<span class="technique-tag">${technique}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('songModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+			document.querySelector('.modal-content').scrollTop = 0;
+			document.getElementById('modalFreeBtn').onclick = () => downloadFree(song.id);
+document.getElementById('modalPremiumBtn').onclick = () => buyPremium(song.id);
+        }
+
+        function closeModal() {
+    // Detener el video limpiando el src
+    const iframe = document.getElementById('youtubeIframe');
+    iframe.src = '';
+    
+    document.getElementById('songModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+function downloadFree(songId) {
+    const downloadLinks = {
+        1: "", // De Musica Ligera
+        2: "", // Ji Ji Ji
+        3: "https://drive.google.com/file/d/1BN3-_pNDNV8iuR5S9F7c_z4vk4QzRSyH/view?usp=sharing", // Kamikaze
+        4: ""  // Persiana Americana
+    };
+    
+    const link = downloadLinks[songId];
+    if (link && link !== "") {
+        window.open(link, '_blank');
+    } else {
+        showNotAvailableToastMobile();
+    }
+}
+function showNotAvailableToast() {
+    // Crear el toast
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #1e3a5f, #2c5aa0);
+        color: white;
+        padding: 1.5rem 2rem;
+        border-radius: 15px;
+        border: 1px solid #00d4ff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        z-index: 3000;
+        transform: translateX(400px);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        max-width: 320px;
+        backdrop-filter: blur(10px);
+    `;
+    
+    toast.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="font-size: 2rem;">⏳</div>
+            <div>
+                <div style="font-weight: bold; color: #00d4ff; margin-bottom: 0.5rem;">
+                    Descarga no disponible
+                </div>
+                <div style="font-size: 0.9rem; color: #87ceeb;">
+                    ¡Próximamente disponible!
+                </div>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" style="
+                background: none; 
+                border: none; 
+                color: #87ceeb; 
+                font-size: 1.5rem; 
+                cursor: pointer; 
+                padding: 0; 
+                margin-left: auto;
+                transition: color 0.3s ease;
+            " onmouseover="this.style.color='#00d4ff'" onmouseout="this.style.color='#87ceeb'">
+                ×
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Animar entrada
+    setTimeout(() => {
+        toast.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Auto-remover después de 4 segundos
+    setTimeout(() => {
+        toast.style.transform = 'translateX(400px)';
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.remove();
+            }
+        }, 400);
+    }, 4000);
+}
+function showNotAvailableToastMobile() {
+    const isMobile = window.innerWidth <= 768;
+    
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed;
+        ${isMobile ? 'top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);' : 'top: 20px; right: 20px; transform: translateX(400px);'}
+        background: linear-gradient(135deg, #1e3a5f, #2c5aa0);
+        color: white;
+        padding: ${isMobile ? '2rem' : '1.5rem 2rem'};
+        border-radius: 15px;
+        border: 1px solid #00d4ff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        z-index: 3000;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        max-width: ${isMobile ? '280px' : '320px'};
+        backdrop-filter: blur(10px);
+        text-align: center;
+    `;
+    
+    toast.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 1rem; ${isMobile ? 'flex-direction: column; text-align: center;' : ''}">
+            <div style="font-size: 2rem;">⏳</div>
+            <div ${isMobile ? 'style="text-align: center;"' : ''}>
+                <div style="font-weight: bold; color: #00d4ff; margin-bottom: 0.5rem;">
+                    Descarga no disponible
+                </div>
+                <div style="font-size: 0.9rem; color: #87ceeb;">
+                    ¡Próximamente disponible!
+                </div>
+            </div>
+            ${!isMobile ? `<button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: #87ceeb; font-size: 1.5rem; cursor: pointer; padding: 0; margin-left: auto; transition: color 0.3s ease;" onmouseover="this.style.color='#00d4ff'" onmouseout="this.style.color='#87ceeb'">×</button>` : ''}
+        </div>
+        ${isMobile ? `<button onclick="this.parentElement.remove()" style="background: rgba(0,212,255,0.1); color: #00d4ff; border: 1px solid #00d4ff; padding: 0.6rem 1.5rem; border-radius: 20px; margin-top: 1rem; cursor: pointer; width: 100%;">Cerrar</button>` : ''}
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Animar entrada
+    setTimeout(() => {
+        if (isMobile) {
+            toast.style.transform = 'translate(-50%, -50%) scale(1)';
+        } else {
+            toast.style.transform = 'translateX(0)';
+        }
+    }, 100);
+    
+    // Auto-remover después de 4 segundos
+    setTimeout(() => {
+        if (isMobile) {
+            toast.style.transform = 'translate(-50%, -50%) scale(0)';
+        } else {
+            toast.style.transform = 'translateX(400px)';
+        }
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.remove();
+            }
+        }, 400);
+    }, 4000);
+}
+
+        function buyPremium(songId) {
+    const song = songs.find(s => s.id === songId);
+    const songTitle = song ? song.title : document.getElementById('modalTitle').textContent;
+    const supportEmail = "guitarsync.official@gmail.com";
+    
+    const emailSubject = `Compra Premium - ${songTitle}`;
+    const emailBody = `Hola!
+
+Me interesa comprar la versión premium de: ${songTitle}
+Precio: $1.500 ARS
+
+¿Cuáles son las opciones de pago disponibles?
+
+Gracias!`;
+
+    // Detectar si es móvil
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    
+    if (isMobile) {
+        const gmailAppUrl = `googlegmail://co?to=${supportEmail}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        const mailtoLink = `mailto:${supportEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        showPaymentModal(songTitle, gmailAppUrl, mailtoLink, supportEmail, true);
+    } else {
+        const gmailWebUrl = `https://mail.google.com/mail/?view=cm&to=${supportEmail}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        const mailtoLink = `mailto:${supportEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        showPaymentModal(songTitle, gmailWebUrl, mailtoLink, supportEmail, false);
+    }
+}
+
+    function showPaymentModal(songTitle, primaryUrl, fallbackUrl, email, isMobile) {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background: rgba(0,0,0,0.9); z-index: 2000; display: flex; 
+        align-items: center; justify-content: center; backdrop-filter: blur(5px);
+        padding: ${isMobile ? '1rem' : '2rem'};
+    `;
+    
+    const deviceIcon = isMobile ? '' : '';
+    
+    modal.innerHTML = `
+        <div style="
+            background: linear-gradient(135deg, #1e3a5f, #2c5aa0); 
+            padding: ${isMobile ? '1.5rem' : '2rem'}; 
+            border-radius: 20px; 
+            text-align: center; 
+            color: white; 
+            width: 100%;
+            max-width: ${isMobile ? '320px' : '450px'}; 
+            max-height: ${isMobile ? '90vh' : '85vh'};
+            border: 1px solid #00d4ff; 
+            overflow-y: auto;
+            box-sizing: border-box;
+        ">
+            <div style="font-size: ${isMobile ? '2rem' : '2.5rem'}; margin-bottom: 1rem;">${deviceIcon}</div>
+            <h3 style="color: #00d4ff; margin-bottom: 1rem; font-size: ${isMobile ? '1.3rem' : '1.5rem'};">Comprar Premium</h3>
+            <p style="margin-bottom: 0.5rem; font-size: ${isMobile ? '1rem' : '1.1rem'};"><strong>${songTitle}</strong></p>
+            <p style="color: #00d4ff; font-size: ${isMobile ? '1.2rem' : '1.3rem'}; font-weight: bold; margin-bottom: 1.5rem;">$1.500 ARS</p>
+            
+            <div style="
+                background: rgba(0,212,255,0.1); 
+                padding: ${isMobile ? '1rem' : '1.5rem'}; 
+                border-radius: 15px; 
+                margin: 1.5rem 0; 
+                border: 1px solid rgba(0,212,255,0.3);
+            ">
+                <p style="font-size: ${isMobile ? '0.9rem' : '0.95rem'}; margin-bottom: 1rem;">📦 <strong>Incluye:</strong></p>
+                <div style="text-align: left; font-size: ${isMobile ? '0.8rem' : '0.85rem'}; line-height: 1.6;">
+                    ✅ Backing track en alta calidad (320kbps)<br>
+                    ✅ Versión con pista de voz incluida<br>
+                    ✅ Tablatura completa en PDF<br>
+                    ✅ Entrega por email en 24-48hs<br>
+                </div>
+            </div>
+            
+            <div style="
+                background: rgba(135,206,235,0.1); 
+                padding: 1rem; 
+                border-radius: 10px; 
+                margin: 1rem 0; 
+                border: 1px solid rgba(135,206,235,0.3);
+            ">
+			<p style="font-size: ${isMobile ? '0.85rem' : '0.9rem'}; color: #fbbf24; text-align: center;">
+        <strong>⚠️ IMPORTANTE:</strong><br>
+        Esta compra es solo para "${songTitle}".<br>
+        Cada canción se vende por separado.
+    </p>             
+				<p style="font-size: ${isMobile ? '0.85rem' : '0.9rem'}; color: #87ceeb;"><strong>📧 Email de contacto:</strong></p>
+                <p style="font-size: ${isMobile ? '0.85rem' : '0.9rem'}; margin: 0.5rem 0; color: white; word-break: break-all;">${email}</p>
+            </div>
+            
+            <button onclick="smartEmailOpen('${primaryUrl}', '${fallbackUrl}', ${isMobile})" style="
+                background: linear-gradient(45deg, #00d4ff, #0ea5e9); 
+                color: white; 
+                border: none; 
+                padding: ${isMobile ? '0.9rem 1.5rem' : '1rem 2rem'}; 
+                border-radius: 25px; 
+                margin: 0.5rem 0; 
+                cursor: pointer; 
+                font-weight: bold; 
+                width: 100%; 
+                transition: all 0.3s ease;
+                font-size: ${isMobile ? '0.9rem' : '1rem'};
+            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                📧 Enviar Email
+            </button>
+            
+            <button id="copyEmailBtn-${Date.now()}" onclick="copyEmailToClipboardWithFeedback(this, '${email}')" style="
+                background: rgba(135,206,235,0.1); 
+                color: #87ceeb; 
+                border: 1px solid #87ceeb; 
+                padding: ${isMobile ? '0.7rem 1.2rem' : '0.8rem 1.5rem'}; 
+                border-radius: 25px; 
+                margin: 0.5rem 0; 
+                cursor: pointer; 
+                width: 100%; 
+                transition: all 0.3s ease;
+                font-size: ${isMobile ? '0.85rem' : '0.9rem'};
+            ">
+                📋 Copiar Email
+            </button>
+            
+            <button onclick="this.parentElement.parentElement.remove()" style="
+                background: transparent; 
+                color: #87ceeb; 
+                border: 1px solid #87ceeb; 
+                padding: ${isMobile ? '0.7rem 1.2rem' : '0.8rem 1.5rem'}; 
+                border-radius: 25px; 
+                margin: 0.5rem 0; 
+                cursor: pointer; 
+                width: 100%;
+                font-size: ${isMobile ? '0.85rem' : '0.9rem'};
+            ">
+                Cancelar
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+function smartEmailOpen(primaryUrl, fallbackUrl, isMobile) {
+    if (isMobile) {
+        // En móvil: intentar Gmail app primero, luego fallback automático
+        window.location.href = primaryUrl;
+        
+        // Si Gmail app no se abre en 2.5 segundos, usar fallback
+        setTimeout(() => {
+            window.open(fallbackUrl, '_blank');
+        }, 2500);
+    } else {
+        // En PC: intentar Gmail web primero
+        try {
+            window.open(primaryUrl, '_blank');
+        } catch (e) {
+            // Si falla, usar mailto
+            window.open(fallbackUrl, '_blank');
+        }
+    }
+}
+
+function openGmailApp(gmailAppUrl, fallbackUrl) {
+    // Intentar abrir Gmail app
+    window.location.href = gmailAppUrl;
+    
+    // Si no funciona en 2 segundos, abrir cliente de email por defecto
+    setTimeout(() => {
+        window.open(fallbackUrl, '_blank');
+    }, 2000);
+}
+
+function copyEmailToClipboardWithFeedback(button, email) {
+    const originalText = button.innerHTML;
+    const originalStyle = button.style.cssText;
+    
+    navigator.clipboard.writeText(email).then(() => {
+        // Cambiar el botón para mostrar éxito con tilde
+        button.innerHTML = '✅ ¡Copiado!';
+        button.style.background = 'rgba(34, 197, 94, 0.2)';
+        button.style.color = '#22c55e';
+        button.style.borderColor = '#22c55e';
+        button.style.transform = 'scale(1.05)';
+        
+        // Volver al estado original después de 3 segundos
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.style.cssText = originalStyle;
+        }, 3000);
+    }).catch(() => {
+        // Fallback - mostrar el email para copiar manualmente
+        button.innerHTML = '📝 Ver Email';
+        button.style.background = 'rgba(249, 115, 22, 0.2)';
+        button.style.color = '#f97316';
+        button.style.borderColor = '#f97316';
+        
+        // Mostrar el email en un prompt para copiar
+        setTimeout(() => {
+            prompt('Copia este email:', email);
+            button.innerHTML = originalText;
+            button.style.cssText = originalStyle;
+        }, 500);
+    });
+}
+
+        function scrollToTopFunction() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function updateScrollProgress() {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollProgress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('scrollProgress').style.width = scrollProgress + '%';
+        }
+
+        function toggleScrollToTop() {
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            if (document.documentElement.scrollTop > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterSongs);
+        document.getElementById('genreFilter').addEventListener('change', filterSongs);
+        document.getElementById('guitarTypeFilter').addEventListener('change', filterSongs);
+        document.getElementById('tempoFilter').addEventListener('change', filterSongs);
+        document.getElementById('tuningFilter').addEventListener('change', filterSongs);
+        document.getElementById('difficultyFilter').addEventListener('change', filterSongs);
+
+        // Listener para cambio de tamaño de ventana
+        window.addEventListener('resize', function() {
+            const isMobile = window.innerWidth <= 768;
+            const heroBg = document.querySelector('.hero-bg');
+            const heroBgDark = document.querySelector('.hero-bg-dark');
+            
+            if (heroBg && heroBgDark) {
+                if (isMobile) {
+                    // En móviles, usar transiciones más rápidas
+                    heroBg.style.transition = 'opacity 0.5s ease-in-out';
+                    heroBgDark.style.transition = 'opacity 0.5s ease-in-out';
+                } else {
+                    // En desktop, usar transiciones más suaves
+                    heroBg.style.transition = 'opacity 0.8s ease-in-out';
+                    heroBgDark.style.transition = 'opacity 0.8s ease-in-out';
+                }
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            updateScrollProgress();
+            toggleScrollToTop();
+        });
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('songModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Home') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }
+        });
+
+        // Cargar vista inicial
+        showSongsView();
+		 function handleVideoLoad() {
+            // El video se cargó correctamente
+            document.getElementById('youtubeIframe').style.display = 'block';
+            document.getElementById('videoFallback').style.display = 'none';
+        }
+
+        function handleVideoError() {
+            // Error al cargar el video, mostrar fallback
+            document.getElementById('youtubeIframe').style.display = 'none';
+            document.getElementById('videoFallback').style.display = 'flex';
+        }
+
+        function checkVideoAvailability(youtubeId) {
+            const iframe = document.getElementById('youtubeIframe');
+            const fallback = document.getElementById('videoFallback');
+            const youtubeLink = document.getElementById('youtubeLink');
+            
+            // Configurar el iframe
+            iframe.src = `https://www.youtube.com/embed/${youtubeId}?enablejsapi=1`;
+            iframe.title = document.getElementById('modalTitle').textContent;
+            
+            // Configurar el enlace de fallback
+            youtubeLink.href = `https://www.youtube.com/watch?v=${youtubeId}`;
+            
+            // Mostrar iframe inicialmente
+            iframe.style.display = 'block';
+            fallback.style.display = 'none';
+            
+            // Verificar si el video se puede cargar después de un tiempo
+            setTimeout(() => {
+                try {
+                    // Si no se puede acceder al contenido del iframe, probablemente esté bloqueado
+                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                    if (!iframeDocument) {
+                        // No se puede acceder, mostrar fallback
+                        handleVideoError();
+                    }
+                } catch (e) {
+                    // Error de CORS significa que el video se está cargando (esto es normal)
+                    // Solo mostramos error si definitivamente no funciona
+                }
+            }, 3000);
+            
+            // Detectar errores de carga
+            iframe.addEventListener('error', handleVideoError);
+        }
+
+         // Cargar vista inicial
+        showSongsView();
+        
+        // Asegurar que el DOM esté cargado antes de cargar el tema
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                loadSavedTheme();
+            });
+        } else {
+            loadSavedTheme();
+        }
+    </script>
+	<footer class="footer" style="background: rgba(0, 0, 0, 0.2); padding: 3rem 0; margin-top: 4rem; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+    <div class="container">
+        <div class="logo" style="margin-bottom: 1.5rem; font-size: 2.5rem;">🎸 GuitarSync</div>
+        <p style="opacity: 0.7; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+            Backing tracks originales y de alta calidad para guitarristas. ¡Encuentra tu pista perfecta y a practicar!
+        </p>
+        <div class="footer-cta" style="margin-bottom: 2rem;">
+            <a href="https://www.youtube.com/@Guitar_sync?sub_confirmation=1" target="_blank" class="btn btn-youtube-modal">
+                Únete a la Comunidad en YouTube
+            </a>
+        </div>
+        <div class="footer-copy" style="font-size: 0.9rem; opacity: 0.5;">
+            &copy; 2025 GuitarSync.
+        </div>
+    </div>
+</footer>
+</body>
+</html>
